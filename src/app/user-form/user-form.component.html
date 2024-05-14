@@ -1,0 +1,133 @@
+<h3 style="color: green;">user-form works!</h3>
+
+<form #ngUserForm="ngForm" (ngSubmit)="onSubmit()">
+
+
+    <div *ngIf="ngUserForm.submitted && ngUserForm.valid && !ngUserForm.invalid; else ifelseForm">
+        <span style="color: green;">
+            Form : submitted : {{ngUserForm.submitted}};
+            Valid : {{ngUserForm.valid}};
+            Invalid : {{ngUserForm.invalid}};
+            {{ngUserForm.reset()}};
+        </span>
+    </div>
+
+    <ng-template #ifelseForm>
+        <div *ngIf="ngUserForm.valid && !ngUserForm.invalid; else elseForm">
+            <span style="color: red;">
+                Form : submitted : {{ngUserForm.submitted}};
+            </span>
+            <span style="color: green;">
+                Valid : {{ngUserForm.valid}};
+                Invalid : {{ngUserForm.invalid}}
+            </span>
+        </div>
+        <ng-template #elseForm>
+            <span style="color: red; font-style: italic;">
+                Form submitted : {{ngUserForm.submitted}};
+                Valid : {{ngUserForm.valid}};
+                Invalid : {{ngUserForm.invalid}}
+            </span>
+        </ng-template>
+    </ng-template>
+
+    <!-- Champ Nom de famille -->
+    <fieldset>
+        <label for="usrlname">Nom de famille </label>
+        <input id="usrlname" name="usrlname" type="text" [(ngModel)]="newUser.lastname" #lastname="ngModel" required
+            minlength="1" maxlength="30">
+
+        <!-- Message d'erreur de Nom de famille -->
+        <div *ngIf="lastname.errors; else elseLasname">
+            <span *ngIf="lastname.errors?.['required']" style="color: red;">Le nom d'utilisateur est requis</span>
+            <span *ngIf="lastname.errors?.['minlength']" style="color: red;">La longueur minimale doit être
+                supérieure à
+                1</span>
+            <span *ngIf="lastname.errors?.['maxlength']" style="color: red;">La longueur maximale doit être inférieure à
+                30</span>
+        </div>
+
+        <ng-template #elseLasname>
+            <div>
+                <span style="color: green; font-style: italic;">
+                    {{lastname.value}}
+                </span>
+            </div>
+        </ng-template>
+
+    </fieldset>
+
+    <!-- Champ Prénom -->
+    <fieldset>
+        <label for="usrfname">Prénom </label>
+        <input id="usrfname" name="usrfname" type="text" [(ngModel)]="newUser.firstname" #firstname="ngModel" required
+            minlength="1" maxlength="30">
+
+        <!-- Message d'erreur de Prénom -->
+        <div *ngIf="firstname.errors; else elseFirsname">
+            <span *ngIf="firstname.errors?.['required']" style="color: red;">Le prénom est requis</span>
+            <span min *ngIf="firstname.errors?.['minlength']" style="color: red;">La longueur minimale doit être
+                supérieure
+                à
+                1</span>
+            <span *ngIf="firstname.errors?.['maxlength']" style="color: red;">La longueur maximale doit être inférieure
+                à
+                30</span>
+        </div>
+        <ng-template #elseFirsname>
+            <div>
+                <span style="color: green; font-style: italic;">
+                    {{firstname.value}}
+                </span>
+            </div>
+        </ng-template>
+    </fieldset>
+
+    <!-- Champ email -->
+    <fieldset>
+        <label for="usremail">E-mail </label>
+        <input id="usremail" name="usremail" type="email" [(ngModel)]="newUser.email" #email="ngModel" required email>
+
+
+        <!-- Message d'erreurs de email -->
+        <div *ngIf="email.errors, else elseEmail">
+            <span *ngIf="email.errors?.['required']" style="color: red;">Le champ email est requis</span>
+            <span *ngIf="email.errors?.['email']" style="color: red;">L'adresse email doit être valide</span>
+        </div>
+        <ng-template #elseEmail>
+            <div>
+            <span style="color: green; font-style: italic;">
+                {{email.value}}
+            </span>
+        </div>
+        </ng-template>
+    </fieldset>
+
+    <!-- Champ Mot de passe -->
+    <fieldset>
+        <label for="usrpwd">Mot de passe </label>
+        <input id="usrpwd" name="usrpwd" type="password" [(ngModel)]="newUser.password" #password="ngModel" required
+            minlength="8">
+
+
+        <!-- Message d'erreurs de Mot de passe -->
+        <div *ngIf="password.errors, else elsePassword">
+            <span *ngIf="password.errors?.['required']" style="color: red;">Le champ mot de passe est requis</span>
+            <span *ngIf="password.errors?.['password']" style="color: red;">Le mot de passe doit être valide</span>
+            <span *ngIf="password.errors?.['minlength']" style="color: red;">La longueur minimale doit être supérieure à
+                8</span>
+        </div>
+        <div>
+            <ng-template #elsePassword>
+                <div>
+                <span style="color: green; font-style: italic;">
+                    {{password.value}}
+                </span>
+            </div>
+            </ng-template>
+        </div>
+    </fieldset>
+
+    <button type="reset">Restaurer</button>
+    <button type="submit">Sauvegarder</button>
+</form>
